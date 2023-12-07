@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="together.study.mapper.UserMapper">
+    <!-- 로그인 -->
+    <select id="login" resultType="User">
+        SELECT * FROM user_data
+        WHERE user_email = #{userEmail};
+    </select>
+
+
+    <!-- 회원가입 -->
+    <insert id="register" parameterType="User">
+        INSERT INTO user_data (user_email, user_phonenumber, user_name, user_nickname, user_gender, user_birthdate, user_def, user_type)
+        VALUES(#{userEmail}, #{userPhonenumber}, #{userName}, #{userNickname}, #{userGender}, #{userBirthdate}, #{userDef}, #{userType});
+    </insert>
+
+    <update id="update" parameterType="User" >
+        UPDATE user_data SET user_email = #{userEmail}, user_phonenumber = #{userPhonenumber}, user_name = #{userName}, user_nickname = #{userNickname}, user_birthdate = #{userBirthdate}, user_type = #{userType} WHERE user_email = #{userEmail};
+    </update>
+
+    <update id="updateUserDef" parameterMap="userParameterMap" >
+        UPDATE user_data SET user_def = #{userDef} WHERE user_id = #{userId};
+    </update>
+
+    <delete id="delete">
+        DELETE FROM user_data WHERE user_id = #{userId};
+    </delete>
+
+    <select  id="selectByUserNickname" resultType="String">
+        select * from user_data where user_nickname = #{userNickname};
+    </select>
+
+    <select  id="selectByUserPhonenumber" resultType="String">
+        select * from user_data where user_phonenumber = #{userPhonenumber};
+    </select>
+
+    <select  id="selectAllUser" resultType="User">
+        select * from user_data;
+    </select>
+    <parameterMap id="userParameterMap" type="User">
+        <parameter property="user_id" javaType="Integer"/>
+        <parameter property="user_def" javaType="String"/>
+    </parameterMap>
+    <resultMap id="userResultMap" type="User">
+        <result property="user_email" column="userEmail"/>
+        <result property="user_phonenumber" column="userPhonenumber"/>
+        <result property="user_name" column="userName"/>
+        <result property="user_nickname" column="userNickname"/>
+        <result property="user_gender" column="userGender"/>
+        <result property="user_birthdate" column="userBirthdate"/>
+        <result property="user_def" column="userDef"/>
+        <result property="user_type" column="userType"/>
+    </resultMap>
+    <insert id="vms1365API" parameterType="vms1365APIVO">
+        INSERT INTO vms1365API (listApiType, seq, title, centName, areaName, actPlace, actTypeName, status, teenager)
+        VALUES(#{listApiType}, #{seq}, #{title}, #{centName}, #{areaName}, #{actPlace}, #{actTypeName}, #{status}, #{teenager});
+    </insert>
+    <select id="getVms1365API" resultType="vms1365APIVO">
+        select * from vms1365API;
+    </select>
+    <delete id="deleteVms1365API">
+        DELETE FROM vms1365API;
+    </delete>
+</mapper>
